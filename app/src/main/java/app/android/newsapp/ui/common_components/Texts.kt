@@ -2,6 +2,7 @@ package app.android.newsapp.ui.common_components
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -15,7 +16,20 @@ fun SplashText(text: String) {
         text = text, style = TextStyle(
             fontFamily = FontFamily(Font(R.font.montserrat_semibold)),
             fontWeight = FontWeight(500),
-            fontSize = fontDimensionResource(id = R.dimen.splashTextSize)
+            fontSize = fontDimensionResource(id = R.dimen.splashTextSize),
+            color = Color.Black
+        )
+    )
+}
+
+@Composable
+fun ButtonText(text: String) {
+    Text(
+        text = text, style = TextStyle(
+            fontFamily = FontFamily(Font(R.font.montserrat_regular)),
+            fontWeight = FontWeight(300),
+            fontSize = fontDimensionResource(id = R.dimen.splashButtonSize),
+            color = Color.White
         )
     )
 }

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="splashTextSize">24sp</dimen>
+    <dimen name="splashButtonSize">24sp</dimen>
+    <dimen name="dp50">50dp</dimen>
 </resources>
