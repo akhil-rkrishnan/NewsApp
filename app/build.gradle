@@ -16,6 +16,9 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField "String", 'BASE_URL', '"https://newsapi.org/v2/"'
+        buildConfigField "String", 'API_KEY', '"3ff53327cab6426082d8cb63ee4f7b39"'
+
         testInstrumentationRunner "app.android.newsapp.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary true
