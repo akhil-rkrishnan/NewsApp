@@ -13,6 +13,7 @@ import app.android.newsapp.ui.common_components.VerticalSpacer
 
 @Composable
 fun LauncherScreen(onClick: () -> Unit) {
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center

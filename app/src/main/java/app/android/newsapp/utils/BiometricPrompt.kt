@@ -1,23 +1,26 @@
 package app.android.newsapp.utils
 
-import android.app.Activity
+import android.content.Context
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import app.android.newsapp.R
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 
-class BiometricPrompt(private val context: Activity) :
+class BiometricPrompt(private val context: Context) :
     BiometricPrompt.AuthenticationCallback() {
 
     var isBiometricEnabled: Boolean = false
         private set
 
-    private val _biometricAuthFlow: MutableStateFlow<AuthState> = MutableStateFlow(AuthState.None)
-    val biometricAuthFlow get() = _biometricAuthFlow.asStateFlow()
+    private val _biometricAuthChannel = Channel<AuthState>()
+    val biometricAuthFlow get() = _biometricAuthChannel.receiveAsFlow()
 
     private val executor by lazy {
         ContextCompat.getMainExecutor(context)
@@ -27,7 +30,8 @@ class BiometricPrompt(private val context: Activity) :
         BiometricPrompt.PromptInfo.Builder()
             .setTitle(context.getString(R.string.biometricTitle))
             .setDescription(context.getString(R.string.biometricDescription))
-            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK)
+            .setNegativeButtonText(context.getString(R.string.biometricNegative))
+            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
             .build()
     }
 
@@ -39,9 +43,13 @@ class BiometricPrompt(private val context: Activity) :
         BiometricManager.from(context)
     }
 
+    private val coroutineScope by lazy {
+        CoroutineScope(Dispatchers.IO + SupervisorJob())
+    }
+
     init {
         isBiometricEnabled =
-            when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK)) {
+            when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)) {
                 BiometricManager.BIOMETRIC_SUCCESS -> {
                     true
                 }
@@ -58,17 +66,23 @@ class BiometricPrompt(private val context: Activity) :
 
     override fun onAuthenticationError(errorCode: Int, errorString: CharSequence) {
         super.onAuthenticationError(errorCode, errorString)
-        _biometricAuthFlow.update { AuthState.BiometricError(errorString.toString()) }
+        sendAuthState(AuthState.BiometricError(errorString.toString()))
     }
 
     override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
         super.onAuthenticationSucceeded(result)
-        _biometricAuthFlow.update { AuthState.BiometricSuccess }
+        sendAuthState(AuthState.BiometricSuccess)
     }
 
     override fun onAuthenticationFailed() {
         super.onAuthenticationFailed()
-        _biometricAuthFlow.update { AuthState.BiometricFailed }
+        sendAuthState(AuthState.BiometricFailed)
+    }
+
+    private fun sendAuthState(state: AuthState) {
+        coroutineScope.launch {
+            _biometricAuthChannel.send(state)
+        }
     }
 }
 

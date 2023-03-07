@@ -2,12 +2,12 @@ package app.android.newsapp.ui.screens.launcher
 
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import app.android.newsapp.ui.screens.landing.LandingActivity
 import app.android.newsapp.ui.theme.BBCNewsTheme
@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 private const val TAG = "LauncherActivity"
 
-class LauncherActivity : ComponentActivity() {
+class LauncherActivity : FragmentActivity() {
 
     private val biometrics by lazy {
         BiometricPrompt(this)

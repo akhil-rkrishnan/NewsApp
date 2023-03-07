@@ -2,4 +2,5 @@
     <string name="app_name">BBC News</string>
     <string name="biometricTitle">Authentication Required</string>
     <string name="biometricDescription">Use fingerprint to continue</string>
+    <string name="biometricNegative">Next page will be loaded only after successful authentication</string>
 </resources>
