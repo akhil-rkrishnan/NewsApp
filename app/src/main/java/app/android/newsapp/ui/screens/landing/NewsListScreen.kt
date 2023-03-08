@@ -1,6 +1,7 @@
 package app.android.newsapp.ui.screens.landing
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -24,16 +25,18 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import app.android.newsapp.BuildConfig
 import app.android.newsapp.R
 import app.android.newsapp.data.models.response.NewsResponse
-import app.android.newsapp.ui.common_components.BoldText
 import app.android.newsapp.ui.common_components.NetworkImage
+import app.android.newsapp.ui.common_components.TitleText
 import app.android.newsapp.ui.common_components.VerticalSpacer
+import app.android.newsapp.ui.screens.landing.navigation.LandingRoutes
 import app.android.newsapp.ui.utils.fontDimensionResource
 
 @Composable
-fun NewsListScreen(viewModel: LandingViewModel) {
+fun NewsListScreen(viewModel: LandingViewModel, navController: NavHostController) {
 
     val list by viewModel.newsList.collectAsState()
 
@@ -45,24 +48,25 @@ fun NewsListScreen(viewModel: LandingViewModel) {
                 )
             )
     ) {
-        TitleScreen(text = BuildConfig.SOURCE)
+        TitleText(text = BuildConfig.SOURCE)
         VerticalSpacer(space = 25.dp)
         LazyColumn {
             itemsIndexed(list) { index, item ->
-                NewsCard(isLastItem = index == list.size - 1, article = item)
+                NewsCard(isLastItem = index == list.size - 1, article = item) {
+                    viewModel.setSelectedArticle(item)
+                    navController.navigate(LandingRoutes.NewsDetails)
+                }
             }
         }
     }
 }
 
-
 @Composable
-fun TitleScreen(text: String) {
-    BoldText(text = text)
-}
-
-@Composable
-fun NewsCard(isLastItem: Boolean, article: NewsResponse.Article) {
+fun NewsCard(
+    isLastItem: Boolean,
+    article: NewsResponse.Article,
+    onNewsClick: (NewsResponse.Article) -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -75,6 +79,9 @@ fun NewsCard(isLastItem: Boolean, article: NewsResponse.Article) {
             .padding(horizontal = dimensionResource(id = R.dimen.dp10))
             .clip(RoundedCornerShape(3))
             .background(color = Color.White, shape = RoundedCornerShape(5))
+            .clickable {
+                onNewsClick(article)
+            }
     ) {
         Column(
             modifier = Modifier.padding(top = dimensionResource(id = R.dimen.dp10))

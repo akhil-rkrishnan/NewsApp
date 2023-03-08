@@ -5,4 +5,7 @@
     <string name="biometricNegative">Next page will be loaded only after successful authentication</string>
     <string name="invalidMessage">Invalid message!</string>
     <string name="todaysNews">Today\'s News</string>
+    <string name="nullTitle">No available title</string>
+    <string name="nullDescription">No available description</string>
+    <string name="nullContent">No available content</string>
 </resources>
