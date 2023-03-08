@@ -34,7 +34,6 @@ class LauncherActivity : FragmentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     LauncherScreen(onClick = {
-                        Log.e(TAG, "Biometrics enabled: ${biometrics.isBiometricEnabled}")
                         if (biometrics.isBiometricEnabled) {
                             biometrics.loadBiometrics()
                         } else {

@@ -23,7 +23,7 @@ data class NewsResponse(
     ) {
         @Keep
         data class Source(
-            @SerializedName("id") val id: String,
+            @SerializedName("id") val id: String?,
             @SerializedName("name") val name: String
         )
     }

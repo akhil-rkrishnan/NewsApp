@@ -61,12 +61,12 @@ android {
 
     flavorDimensions "newsAppEnv"
     productFlavors {
-
+        //flavor for Tech cruch
         sourceTechCrunch {
             buildConfigField "String", "SOURCE", '"techcrunch"'
             dimension "newsAppEnv"
         }
-
+        //flavor for Wall street journal
         sourceWallStreetJournal {
             buildConfigField "String", "SOURCE", '"the-wall-street-journal"'
             dimension "newsAppEnv"
