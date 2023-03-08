@@ -10,6 +10,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import app.android.newsapp.core.EventBus
+import app.android.newsapp.data.network.connection.NetworkConnection
 import app.android.newsapp.ui.screens.landing.navigation.LandingNavGraph
 import app.android.newsapp.ui.theme.BBCNewsTheme
 import app.android.newsapp.ui.theme.black
@@ -27,6 +28,9 @@ class LandingActivity : ComponentActivity() {
     @Inject
     lateinit var eventBus: EventBus
 
+    @Inject
+    lateinit var networkConnection: NetworkConnection
+
     private val viewModel by viewModels<LandingViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +45,10 @@ class LandingActivity : ComponentActivity() {
             }
             BBCNewsTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = lightGrey) {
-                    LandingNavGraph(viewModel = viewModel)
+                    LandingNavGraph(
+                        viewModel = viewModel,
+                        hasNetwork = networkConnection.isNetworkAvailable
+                    )
                 }
             }
         }

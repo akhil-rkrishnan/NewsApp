@@ -14,12 +14,17 @@ import app.android.newsapp.ui.screens.landing.navigation.LandingRoutes.NewsList
 @Composable
 fun LandingNavGraph(
     viewModel: LandingViewModel,
+    hasNetwork: Boolean,
     startDestination: String = NewsList,
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(navController = navController, startDestination = startDestination) {
         composable(route = NewsList) {
-            NewsListScreen(viewModel = viewModel, navController = navController)
+            NewsListScreen(
+                viewModel = viewModel,
+                hasNetwork = hasNetwork,
+                navController = navController
+            )
         }
         composable(route = NewsDetails) {
             NewsDetailsScreen(viewModel = viewModel, navController = navController)

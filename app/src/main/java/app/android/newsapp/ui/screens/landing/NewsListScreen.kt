@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -25,27 +26,38 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import app.android.newsapp.BuildConfig
 import app.android.newsapp.R
 import app.android.newsapp.data.models.response.NewsResponse
-import app.android.newsapp.ui.common_components.LinearProgressbar
-import app.android.newsapp.ui.common_components.NetworkImage
-import app.android.newsapp.ui.common_components.TitleText
-import app.android.newsapp.ui.common_components.VerticalSpacer
+import app.android.newsapp.ui.common_components.*
 import app.android.newsapp.ui.screens.landing.navigation.LandingRoutes
 import app.android.newsapp.ui.theme.black
+import app.android.newsapp.ui.theme.orange
+import app.android.newsapp.ui.theme.red
 import app.android.newsapp.ui.utils.fontDimensionResource
+import app.android.newsapp.utils.ErrorBody
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
-fun NewsListScreen(viewModel: LandingViewModel, navController: NavHostController) {
+fun NewsListScreen(
+    viewModel: LandingViewModel,
+    hasNetwork: Boolean,
+    navController: NavHostController
+) {
 
     val list by viewModel.newsList.collectAsState()
-    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = viewModel.isRefreshing)
+    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = false)
     val isLoading = viewModel.isLoading
+    val errorBody = viewModel.apiErrorBody
+
+    LaunchedEffect(key1 = hasNetwork, block = {
+        if (hasNetwork && list.isEmpty() && !isLoading) {
+            viewModel.loadNewsList()
+        }
+    })
+
     AnimatedVisibility(
         visible = isLoading,
         modifier = Modifier.fillMaxSize(),
@@ -67,20 +79,26 @@ fun NewsListScreen(viewModel: LandingViewModel, navController: NavHostController
         exit = fadeOut()
     ) {
         SwipeRefresh(state = swipeRefreshState, onRefresh = {
-            viewModel.updateRefresh(true)
             viewModel.loadNewsList()
         }) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
                     .padding(
-                        top = dimensionResource(
+                        vertical = dimensionResource(
                             id = R.dimen.dp25
-                        )
+                        ), horizontal = dimensionResource(id = R.dimen.dp10)
                     )
             ) {
                 TitleText(text = BuildConfig.SOURCE)
-                VerticalSpacer(space = 25.dp)
-                LazyColumn {
+                if (!hasNetwork) {
+                    VerticalSpacer(space = dimensionResource(id = R.dimen.dp10))
+                    NewsErrorText(
+                        text = stringResource(id = R.string.networkNotAvailable),
+                        color = orange, maxLines = 3
+                    )
+                }
+                VerticalSpacer(space = dimensionResource(id = R.dimen.dp20))
+                LazyColumn(verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dp10))) {
                     itemsIndexed(list) { index, item ->
                         NewsCard(isLastItem = index == list.size - 1, article = item) {
                             viewModel.setSelectedArticle(item)
@@ -92,7 +110,26 @@ fun NewsListScreen(viewModel: LandingViewModel, navController: NavHostController
         }
     }
 
+    AnimatedVisibility(
+        visible = errorBody != null,
+        modifier = Modifier.fillMaxSize(),
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+        errorBody?.let {
+            ErrorScreen(it)
+        }
+    }
 
+    AnimatedVisibility(visible = !hasNetwork && list.isEmpty(), modifier = Modifier.fillMaxSize()) {
+        Box(contentAlignment = Alignment.Center) {
+            NewsErrorText(
+                text = stringResource(id = R.string.networkNotAvailableEmpty),
+                color = red
+            )
+        }
+
+    }
 }
 
 @Composable
@@ -140,4 +177,30 @@ fun NewsHeadLine(text: String) {
         overflow = TextOverflow.Ellipsis,
         maxLines = 2, modifier = Modifier.padding(start = dimensionResource(id = R.dimen.dp5))
     )
+}
+
+@Composable
+fun ErrorScreen(errorBody: ErrorBody) {
+    Box {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .padding(
+                    horizontal = dimensionResource(
+                        id = R.dimen.dp25
+                    )
+                )
+                .align(Alignment.Center)
+        ) {
+            NewsErrorText(
+                text = stringResource(id = R.string.errorTitle), textSize = fontDimensionResource(
+                    id = R.dimen.sp24
+                ), color = red
+            )
+            NewsErrorText(text = stringResource(id = R.string.errorStatus, errorBody.status))
+            NewsErrorText(text = stringResource(id = R.string.errorCode, errorBody.code))
+            NewsErrorText(text = stringResource(id = R.string.errorMessage, errorBody.message))
+        }
+    }
 }

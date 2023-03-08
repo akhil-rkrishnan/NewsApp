@@ -39,8 +39,7 @@ object NetworkModule {
                             level = HttpLoggingInterceptor.Level.BODY
                         })
             }
-        }
-        .build()
+        }.build()
 
     @Provides
     fun provideGson(): Gson = GsonBuilder().create()

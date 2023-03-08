@@ -9,4 +9,11 @@
     <string name="nullDescription">No available description</string>
     <string name="nullContent">No available content</string>
     <string name="loadingLabel">Loading latest news..</string>
+    <string name="errorTitle">Error on Fetch!</string>
+    <string name="errorStatus">Status: %s</string>
+    <string name="errorCode">Code: %s</string>
+    <string name="errorMessage">Message: %s</string>
+    <string name="networkNotAvailable">The network connection is currently unavailable,
+        but you can still use the data that has already been loaded from the internet if it was previously obtained from the server.</string>
+    <string name="networkNotAvailableEmpty">Please connect to internet to load the data!</string>
 </resources>

@@ -9,6 +9,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import app.android.newsapp.R
 import app.android.newsapp.ui.theme.black
@@ -65,8 +66,8 @@ fun NewsText(
             fontFamily = FontFamily(Font(R.font.poppins_regular)),
             fontWeight = FontWeight(300),
             fontSize = textSize,
-            color = color
-        )
+            color = color,
+        ), maxLines = 2, overflow = TextOverflow.Ellipsis
     )
 }
 
@@ -83,5 +84,22 @@ fun NewsTextLight(
             fontSize = textSize,
             color = color
         ), modifier = Modifier.padding()
+    )
+}
+
+@Composable
+fun NewsErrorText(
+    text: String,
+    textSize: TextUnit = fontDimensionResource(id = R.dimen.sp14),
+    color: Color = black,
+    maxLines: Int = 2
+) {
+    Text(
+        text = text, style = TextStyle(
+            fontFamily = FontFamily(Font(R.font.poppins_regular)),
+            fontWeight = FontWeight(300),
+            fontSize = textSize,
+            color = color,
+        ), maxLines = maxLines, overflow = TextOverflow.Ellipsis
     )
 }

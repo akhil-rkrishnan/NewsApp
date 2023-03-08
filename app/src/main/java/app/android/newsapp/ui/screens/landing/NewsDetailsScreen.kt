@@ -14,10 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.navigation.NavHostController
 import app.android.newsapp.R
-import app.android.newsapp.ui.common_components.NetworkImage
-import app.android.newsapp.ui.common_components.NewsText
-import app.android.newsapp.ui.common_components.NewsTextLight
-import app.android.newsapp.ui.common_components.TitleText
+import app.android.newsapp.ui.common_components.*
 import app.android.newsapp.ui.theme.grey
 import app.android.newsapp.ui.theme.lightBlack
 import app.android.newsapp.utils.toDescriptionOrDefault
@@ -35,6 +32,7 @@ fun NewsDetailsScreen(viewModel: LandingViewModel, navController: NavHostControl
             .verticalScroll(scrollState)
     ) {
         NetworkImage(imageUrl = article?.urlToImage)
+        VerticalSpacer(space = dimensionResource(id = R.dimen.dp10))
         Column(
             modifier = Modifier
                 .padding(horizontal = dimensionResource(id = R.dimen.dp10)),

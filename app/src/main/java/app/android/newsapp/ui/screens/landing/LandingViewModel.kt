@@ -9,6 +9,7 @@ import app.android.newsapp.BuildConfig
 import app.android.newsapp.core.EventBus
 import app.android.newsapp.data.models.response.NewsResponse
 import app.android.newsapp.data.network.repository.NewsRepository
+import app.android.newsapp.utils.ErrorBody
 import app.android.newsapp.utils.ifFailed
 import app.android.newsapp.utils.ifSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,9 +30,9 @@ class LandingViewModel @Inject constructor(
 
     var selectedArticle: NewsResponse.Article? = null
         private set
-    var isRefreshing: Boolean by mutableStateOf(false)
-        private set
     var isLoading: Boolean by mutableStateOf(false)
+        private set
+    var apiErrorBody: ErrorBody? by mutableStateOf(null)
         private set
 
     init {
@@ -45,12 +46,12 @@ class LandingViewModel @Inject constructor(
                 ifSuccess { response ->
                     _newsFlow.update { response.articles.sortedBy { it.publishedAt } }
                     updateLoading(false)
-                    updateRefresh(false)
+                    apiErrorBody = null
                 }
-                ifFailed {
-                    eventBus.sendToast(it)
+                ifFailed { uiText, errorBody ->
+                    eventBus.sendToast(uiText)
                     updateLoading(false)
-                    updateRefresh(false)
+                    apiErrorBody = errorBody
                 }
             }
         }
@@ -58,10 +59,6 @@ class LandingViewModel @Inject constructor(
 
     fun setSelectedArticle(article: NewsResponse.Article) {
         selectedArticle = article
-    }
-
-    fun updateRefresh(value: Boolean) {
-        isRefreshing = value
     }
 
     fun updateLoading(value: Boolean) {
