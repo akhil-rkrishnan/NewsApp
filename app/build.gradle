@@ -31,6 +31,7 @@ android {
         all*.exclude module: 'bcprov-jdk15on'
         cleanedAnnotations
     }
+
     buildTypes {
         release { //production
             minifyEnabled true
@@ -56,25 +57,6 @@ android {
                         // outputFile Name to our apk file.
                         output.outputFileName = name
                 }
-        }
-    }
-
-    sourceSets {
-        main {
-            java.srcDirs = ['src/main/java']
-            res.srcDirs = ['src/main/res']
-        }
-        sourceTechCrunch {
-            java.srcDirs = ['src/techcrunch/java']
-            res.srcDirs = ['src/techcrunch/res']
-        }
-        sourceWallStreetJournal {
-            java.srcDirs = ['src/swsj/java']
-            res.srcDirs = ['src/swsj/res']
-        }
-        sourceTest {
-            java.srcDirs = ['src/sourcetest/java']
-            res.srcDirs = ['src/sourcetest/res']
         }
     }
 
