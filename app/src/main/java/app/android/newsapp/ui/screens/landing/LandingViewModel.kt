@@ -34,6 +34,8 @@ class LandingViewModel @Inject constructor(
         private set
     var apiErrorBody: ErrorBody? by mutableStateOf(null)
         private set
+    var providerName: String by mutableStateOf(BuildConfig.SOURCE)
+        private set
 
     init {
         loadNewsList()
@@ -43,11 +45,18 @@ class LandingViewModel @Inject constructor(
         updateLoading(true)
         viewModelScope.launch {
             newsRepository.getNewsList(BuildConfig.SOURCE).apply {
+
                 ifSuccess { response ->
                     _newsFlow.update { response.articles.sortedBy { it.publishedAt } }
+                    response.articles.let {
+                        if (it.isNotEmpty()) {
+                            providerName = it.first().source.name
+                        }
+                    }
                     updateLoading(false)
                     apiErrorBody = null
                 }
+
                 ifFailed { uiText, errorBody ->
                     eventBus.sendToast(uiText)
                     updateLoading(false)

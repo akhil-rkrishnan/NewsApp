@@ -27,7 +27,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavHostController
-import app.android.newsapp.BuildConfig
 import app.android.newsapp.R
 import app.android.newsapp.data.models.response.NewsResponse
 import app.android.newsapp.ui.common_components.*
@@ -89,7 +88,7 @@ fun NewsListScreen(
                         ), horizontal = dimensionResource(id = R.dimen.dp10)
                     )
             ) {
-                TitleText(text = BuildConfig.SOURCE)
+                TitleText(text = viewModel.providerName)
                 if (!hasNetwork) {
                     VerticalSpacer(space = dimensionResource(id = R.dimen.dp10))
                     NewsErrorText(
