@@ -1,4 +1,4 @@
-package app.android.currency_converter
+package app.android.newsapp
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.StandardTestDispatcher

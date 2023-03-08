@@ -33,7 +33,7 @@ class FakeNewsRepository : NewsRepository {
             NewsResponse(articles = articles, status = "success", totalResults = articles.size)
         } else if (source == "the-wall-street-journal") {
             val articles = arrayListOf<NewsResponse.Article>()
-            repeat(10) {
+            repeat(25) {
                 articles.add(
                     NewsResponse.Article(
                         author = "author-$it",

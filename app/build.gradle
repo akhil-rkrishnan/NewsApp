@@ -59,6 +59,25 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java']
+            res.srcDirs = ['src/main/res']
+        }
+        sourceTechCrunch {
+            java.srcDirs = ['src/techcrunch/java']
+            res.srcDirs = ['src/techcrunch/res']
+        }
+        sourceWallStreetJournal {
+            java.srcDirs = ['src/swsj/java']
+            res.srcDirs = ['src/swsj/res']
+        }
+        sourceTest {
+            java.srcDirs = ['src/sourcetest/java']
+            res.srcDirs = ['src/sourcetest/res']
+        }
+    }
+
     flavorDimensions "newsAppEnv"
     productFlavors {
         //flavor for Tech cruch
@@ -69,6 +88,13 @@ android {
         //flavor for Wall street journal
         sourceWallStreetJournal {
             buildConfigField "String", "SOURCE", '"the-wall-street-journal"'
+            dimension "newsAppEnv"
+        }
+
+        //flavor for testing empty source
+        // Note: use this flavor only for testing purpose
+        sourceTest {
+            buildConfigField "String", "SOURCE", '""'
             dimension "newsAppEnv"
         }
 
