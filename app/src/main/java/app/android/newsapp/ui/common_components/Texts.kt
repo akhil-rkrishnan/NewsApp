@@ -16,7 +16,7 @@ fun SplashText(text: String) {
         text = text, style = TextStyle(
             fontFamily = FontFamily(Font(R.font.montserrat_semibold)),
             fontWeight = FontWeight(500),
-            fontSize = fontDimensionResource(id = R.dimen.splashTextSize),
+            fontSize = fontDimensionResource(id = R.dimen.sp24),
             color = Color.Black
         )
     )
@@ -28,8 +28,20 @@ fun ButtonText(text: String) {
         text = text, style = TextStyle(
             fontFamily = FontFamily(Font(R.font.montserrat_regular)),
             fontWeight = FontWeight(300),
-            fontSize = fontDimensionResource(id = R.dimen.splashButtonSize),
+            fontSize = fontDimensionResource(id = R.dimen.sp24),
             color = Color.White
+        )
+    )
+}
+
+@Composable
+fun BoldText(text: String) {
+    Text(
+        text = text, style = TextStyle(
+            fontFamily = FontFamily(Font(R.font.montserrat_semibold)),
+            fontWeight = FontWeight(600),
+            fontSize = fontDimensionResource(id = R.dimen.sp24),
+            color = Color.Black
         )
     )
 }

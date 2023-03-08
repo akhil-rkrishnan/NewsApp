@@ -18,6 +18,7 @@ android {
 
         buildConfigField "String", 'BASE_URL', '"https://newsapi.org/v2/"'
         buildConfigField "String", 'API_KEY', '"3ff53327cab6426082d8cb63ee4f7b39"'
+        buildConfigField "String", "SOURCE", '"techcrunch"'
 
         testInstrumentationRunner "app.android.newsapp.HiltTestRunner"
         vectorDrawables {
@@ -152,6 +153,10 @@ dependencies {
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     implementation "androidx.biometric:biometric:1.1.0"
+
+    // Coil
+    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation "com.google.accompanist:accompanist-coil:0.10.0"
 
 
 }

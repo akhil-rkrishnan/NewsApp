@@ -4,7 +4,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import app.android.newsapp.ui.theme.googleBlue
+import app.android.newsapp.ui.theme.blue
 
 @Composable
 fun SplashButton(
@@ -13,7 +13,7 @@ fun SplashButton(
 ) {
     Button(
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = googleBlue
+            backgroundColor = blue
         ), onClick = onClick
     ) {
         ButtonText(text = "Let's Go!")
