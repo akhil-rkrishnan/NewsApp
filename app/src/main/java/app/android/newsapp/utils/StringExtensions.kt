@@ -23,7 +23,7 @@ fun String?.toContentOrDefault(): String {
 @Composable
 fun String?.toDescriptionOrDefault(): String {
     return if (this.isNullOrEmpty())
-        stringResource(id = R.string.nullContent)
+        stringResource(id = R.string.nullDescription)
     else
         this
 }

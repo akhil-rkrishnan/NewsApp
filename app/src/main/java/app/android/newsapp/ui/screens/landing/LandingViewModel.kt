@@ -1,5 +1,8 @@
 package app.android.newsapp.ui.screens.landing
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.android.newsapp.BuildConfig
@@ -26,19 +29,28 @@ class LandingViewModel @Inject constructor(
 
     var selectedArticle: NewsResponse.Article? = null
         private set
+    var isRefreshing: Boolean by mutableStateOf(false)
+        private set
+    var isLoading: Boolean by mutableStateOf(false)
+        private set
 
     init {
         loadNewsList()
     }
 
     fun loadNewsList() {
+        updateLoading(true)
         viewModelScope.launch {
             newsRepository.getNewsList(BuildConfig.SOURCE).apply {
                 ifSuccess { response ->
                     _newsFlow.update { response.articles.sortedBy { it.publishedAt } }
+                    updateLoading(false)
+                    updateRefresh(false)
                 }
                 ifFailed {
                     eventBus.sendToast(it)
+                    updateLoading(false)
+                    updateRefresh(false)
                 }
             }
         }
@@ -46,5 +58,13 @@ class LandingViewModel @Inject constructor(
 
     fun setSelectedArticle(article: NewsResponse.Article) {
         selectedArticle = article
+    }
+
+    fun updateRefresh(value: Boolean) {
+        isRefreshing = value
+    }
+
+    fun updateLoading(value: Boolean) {
+        isLoading = value
     }
 }

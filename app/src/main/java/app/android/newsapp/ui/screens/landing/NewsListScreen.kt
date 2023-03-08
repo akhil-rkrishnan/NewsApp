@@ -1,11 +1,11 @@
 package app.android.newsapp.ui.screens.landing
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -29,36 +30,69 @@ import androidx.navigation.NavHostController
 import app.android.newsapp.BuildConfig
 import app.android.newsapp.R
 import app.android.newsapp.data.models.response.NewsResponse
+import app.android.newsapp.ui.common_components.LinearProgressbar
 import app.android.newsapp.ui.common_components.NetworkImage
 import app.android.newsapp.ui.common_components.TitleText
 import app.android.newsapp.ui.common_components.VerticalSpacer
 import app.android.newsapp.ui.screens.landing.navigation.LandingRoutes
+import app.android.newsapp.ui.theme.black
 import app.android.newsapp.ui.utils.fontDimensionResource
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun NewsListScreen(viewModel: LandingViewModel, navController: NavHostController) {
 
     val list by viewModel.newsList.collectAsState()
-
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
-            .padding(
-                top = dimensionResource(
-                    id = R.dimen.dp25
-                )
-            )
+    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = viewModel.isRefreshing)
+    val isLoading = viewModel.isLoading
+    AnimatedVisibility(
+        visible = isLoading,
+        modifier = Modifier.fillMaxSize(),
+        enter = fadeIn(),
+        exit = fadeOut()
     ) {
-        TitleText(text = BuildConfig.SOURCE)
-        VerticalSpacer(space = 25.dp)
-        LazyColumn {
-            itemsIndexed(list) { index, item ->
-                NewsCard(isLastItem = index == list.size - 1, article = item) {
-                    viewModel.setSelectedArticle(item)
-                    navController.navigate(LandingRoutes.NewsDetails)
+        Box {
+            LinearProgressbar(
+                modifier = Modifier.align(Alignment.Center),
+                color = black,
+                loadingLabel = stringResource(R.string.loadingLabel)
+            )
+        }
+    }
+
+    AnimatedVisibility(
+        visible = !isLoading && list.isNotEmpty(),
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+        SwipeRefresh(state = swipeRefreshState, onRefresh = {
+            viewModel.updateRefresh(true)
+            viewModel.loadNewsList()
+        }) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
+                    .padding(
+                        top = dimensionResource(
+                            id = R.dimen.dp25
+                        )
+                    )
+            ) {
+                TitleText(text = BuildConfig.SOURCE)
+                VerticalSpacer(space = 25.dp)
+                LazyColumn {
+                    itemsIndexed(list) { index, item ->
+                        NewsCard(isLastItem = index == list.size - 1, article = item) {
+                            viewModel.setSelectedArticle(item)
+                            navController.navigate(LandingRoutes.NewsDetails)
+                        }
+                    }
                 }
             }
         }
     }
+
+
 }
 
 @Composable

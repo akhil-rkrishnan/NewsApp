@@ -8,4 +8,5 @@
     <string name="nullTitle">No available title</string>
     <string name="nullDescription">No available description</string>
     <string name="nullContent">No available content</string>
+    <string name="loadingLabel">Loading latest news..</string>
 </resources>
