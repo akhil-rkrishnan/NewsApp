@@ -23,9 +23,10 @@ import app.android.newsapp.utils.toTitleOrDefault
 @Composable
 fun NewsDetailsScreen(viewModel: LandingViewModel, navController: NavHostController) {
     val article by remember {
-        mutableStateOf(viewModel.selectedArticle)
+        mutableStateOf(viewModel.newsState.value.selectedArticle)
     }
-    var scrollState = rememberScrollState()
+
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()

@@ -196,6 +196,11 @@ dependencies {
     implementation "com.google.accompanist:accompanist-coil:0.10.0"
     implementation "com.google.accompanist:accompanist-swiperefresh:0.21.0-beta"
 
+    // Test rules and transitive dependencies:
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.3.3")
+    // Needed for createAndroidComposeRule, but not createComposeRule:
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.3.3")
+
 
 }
 

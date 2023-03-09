@@ -4,6 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import app.android.newsapp.R
 
+/**
+ * Returns fall back string if the string is null
+ * @return string
+ **/
 @Composable
 fun String?.toTitleOrDefault(): String {
     return if (this.isNullOrEmpty())
@@ -12,6 +16,10 @@ fun String?.toTitleOrDefault(): String {
         this
 }
 
+/**
+ * Returns fall back string if the string is null
+ * @return string
+ **/
 @Composable
 fun String?.toContentOrDefault(): String {
     return if (this.isNullOrEmpty())
@@ -20,6 +28,10 @@ fun String?.toContentOrDefault(): String {
         this
 }
 
+/**
+ * Returns fall back string if the string is null
+ * @return string
+ **/
 @Composable
 fun String?.toDescriptionOrDefault(): String {
     return if (this.isNullOrEmpty())

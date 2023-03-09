@@ -1,4 +1,4 @@
-package app.android.newsapp.utils
+package app.android.newsapp.data.biometrics
 
 import android.content.Context
 import androidx.biometric.BiometricManager
@@ -13,6 +13,10 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
+/**
+ * Class for biometric authentication
+ * @param context - Context
+ **/
 class BiometricPrompt(private val context: Context) :
     BiometricPrompt.AuthenticationCallback() {
 

@@ -13,7 +13,6 @@ import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +25,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import app.android.newsapp.R
 import app.android.newsapp.data.models.response.NewsResponse
@@ -45,20 +45,18 @@ fun NewsListScreen(
     hasNetwork: Boolean,
     navController: NavHostController
 ) {
-
-    val list by viewModel.newsList.collectAsState()
+    val newsState by viewModel.newsState.collectAsStateWithLifecycle()
     val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = false)
-    val isLoading = viewModel.isLoading
-    val errorBody = viewModel.apiErrorBody
+    val errorBody = newsState.apiErrorBody
 
     LaunchedEffect(key1 = hasNetwork, block = {
-        if (hasNetwork && list.isEmpty() && !isLoading) {
+        if (hasNetwork && newsState.articles.isEmpty() && !newsState.isLoading) {
             viewModel.loadNewsList()
         }
     })
 
     AnimatedVisibility(
-        visible = isLoading,
+        visible = newsState.isLoading,
         modifier = Modifier.fillMaxSize(),
         enter = fadeIn(),
         exit = fadeOut()
@@ -73,7 +71,7 @@ fun NewsListScreen(
     }
 
     AnimatedVisibility(
-        visible = !isLoading && list.isNotEmpty(),
+        visible = !newsState.isLoading && newsState.articles.isNotEmpty(),
         enter = fadeIn(),
         exit = fadeOut()
     ) {
@@ -88,7 +86,7 @@ fun NewsListScreen(
                         ), horizontal = dimensionResource(id = R.dimen.dp10)
                     )
             ) {
-                TitleText(text = viewModel.providerName)
+                TitleText(text = newsState.providerName)
                 if (!hasNetwork) {
                     VerticalSpacer(space = dimensionResource(id = R.dimen.dp10))
                     NewsErrorText(
@@ -98,8 +96,11 @@ fun NewsListScreen(
                 }
                 VerticalSpacer(space = dimensionResource(id = R.dimen.dp20))
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.dp10))) {
-                    itemsIndexed(list) { index, item ->
-                        NewsCard(isLastItem = index == list.size - 1, article = item) {
+                    itemsIndexed(newsState.articles) { index, item ->
+                        NewsCard(
+                            isLastItem = index == newsState.articles.size - 1,
+                            article = item
+                        ) {
                             viewModel.setSelectedArticle(item)
                             navController.navigate(LandingRoutes.NewsDetails)
                         }
@@ -120,7 +121,10 @@ fun NewsListScreen(
         }
     }
 
-    AnimatedVisibility(visible = !hasNetwork && list.isEmpty(), modifier = Modifier.fillMaxSize()) {
+    AnimatedVisibility(
+        visible = !hasNetwork && newsState.articles.isEmpty(),
+        modifier = Modifier.fillMaxSize()
+    ) {
         Box(contentAlignment = Alignment.Center) {
             NewsErrorText(
                 text = stringResource(id = R.string.networkNotAvailableEmpty),

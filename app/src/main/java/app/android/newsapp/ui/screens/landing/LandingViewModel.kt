@@ -1,16 +1,12 @@
 package app.android.newsapp.ui.screens.landing
 
 import androidx.annotation.VisibleForTesting
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.android.newsapp.BuildConfig
 import app.android.newsapp.core.EventBus
 import app.android.newsapp.data.models.response.NewsResponse
 import app.android.newsapp.data.network.repository.NewsRepository
-import app.android.newsapp.utils.ErrorBody
 import app.android.newsapp.utils.ifFailed
 import app.android.newsapp.utils.ifSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,20 +22,10 @@ class LandingViewModel @Inject constructor(
     private val eventBus: EventBus
 ) : ViewModel() {
 
-    private val _newsFlow = MutableStateFlow(listOf<NewsResponse.Article>())
-    val newsList get() = _newsFlow.asStateFlow()
-
-    var selectedArticle: NewsResponse.Article? = null
-        private set
-    var isLoading: Boolean by mutableStateOf(false)
-        private set
-    var apiErrorBody: ErrorBody? by mutableStateOf(null)
-        private set
-    var providerName: String by mutableStateOf("")
-        private set
+    private val _newsState = MutableStateFlow<NewsState>(NewsState())
+    val newsState = _newsState.asStateFlow()
 
     private var newsSource: String = BuildConfig.NEWS_SOURCE
-
 
     init {
         loadNewsList()
@@ -51,31 +37,36 @@ class LandingViewModel @Inject constructor(
             newsRepository.getNewsList(newsSource).apply {
 
                 ifSuccess { response ->
-                    _newsFlow.update { response.articles.sortedBy { it.publishedAt } }
-                    response.articles.let {
-                        if (it.isNotEmpty()) {
-                            providerName = it.first().source.name
-                        }
+                    _newsState.update {
+                        NewsState(
+                            totalItems = response.totalResults,
+                            status = response.status,
+                            articles = response.articles,
+                            providerName = response.articles.let { list ->
+                                if (list.isNotEmpty())
+                                    list.first().source.name
+                                else ""
+                            }
+                        )
                     }
                     updateLoading(false)
-                    apiErrorBody = null
                 }
 
                 ifFailed { uiText, errorBody ->
                     eventBus.sendToast(uiText)
                     updateLoading(false)
-                    apiErrorBody = errorBody
+                    _newsState.update { NewsState(apiErrorBody = errorBody) }
                 }
             }
         }
     }
 
     fun setSelectedArticle(article: NewsResponse.Article) {
-        selectedArticle = article
+        _newsState.update { it.copy(selectedArticle = article) }
     }
 
     private fun updateLoading(value: Boolean) {
-        isLoading = value
+        _newsState.update { it.copy(isLoading = value) }
     }
 
     //This method is used only for unit testing
@@ -83,4 +74,5 @@ class LandingViewModel @Inject constructor(
     fun setSource(source: String) {
         newsSource = source
     }
+
 }

@@ -9,11 +9,11 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
+import app.android.newsapp.data.biometrics.AuthState
+import app.android.newsapp.data.biometrics.BiometricPrompt
 import app.android.newsapp.ui.screens.landing.LandingActivity
 import app.android.newsapp.ui.theme.BBCNewsTheme
 import app.android.newsapp.ui.utils.startComponentActivity
-import app.android.newsapp.utils.AuthState
-import app.android.newsapp.utils.BiometricPrompt
 import kotlinx.coroutines.flow.collectLatest
 
 private const val TAG = "LauncherActivity"
