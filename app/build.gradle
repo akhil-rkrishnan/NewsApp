@@ -64,19 +64,12 @@ android {
     productFlavors {
         //flavor for Tech cruch
         sourceTechCrunch {
-            buildConfigField "String", "SOURCE", '"techcrunch"'
+            buildConfigField "String", "NEWS_SOURCE", '"techcrunch"'
             dimension "newsAppEnv"
         }
         //flavor for Wall street journal
         sourceWallStreetJournal {
-            buildConfigField "String", "SOURCE", '"the-wall-street-journal"'
-            dimension "newsAppEnv"
-        }
-
-        //flavor for testing empty source
-        // Note: use this flavor only for testing purpose
-        sourceTest {
-            buildConfigField "String", "SOURCE", '""'
+            buildConfigField "String", "NEWS_SOURCE", '"the-wall-street-journal"'
             dimension "newsAppEnv"
         }
 

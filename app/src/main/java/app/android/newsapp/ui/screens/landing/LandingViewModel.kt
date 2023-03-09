@@ -1,5 +1,6 @@
 package app.android.newsapp.ui.screens.landing
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -34,8 +35,11 @@ class LandingViewModel @Inject constructor(
         private set
     var apiErrorBody: ErrorBody? by mutableStateOf(null)
         private set
-    var providerName: String by mutableStateOf(BuildConfig.SOURCE)
+    var providerName: String by mutableStateOf("")
         private set
+
+    private var newsSource: String = BuildConfig.NEWS_SOURCE
+
 
     init {
         loadNewsList()
@@ -44,7 +48,7 @@ class LandingViewModel @Inject constructor(
     fun loadNewsList() {
         updateLoading(true)
         viewModelScope.launch {
-            newsRepository.getNewsList(BuildConfig.SOURCE).apply {
+            newsRepository.getNewsList(newsSource).apply {
 
                 ifSuccess { response ->
                     _newsFlow.update { response.articles.sortedBy { it.publishedAt } }
@@ -70,7 +74,13 @@ class LandingViewModel @Inject constructor(
         selectedArticle = article
     }
 
-    fun updateLoading(value: Boolean) {
+    private fun updateLoading(value: Boolean) {
         isLoading = value
+    }
+
+    //This method is used only for unit testing
+    @VisibleForTesting
+    fun setSource(source: String) {
+        newsSource = source
     }
 }

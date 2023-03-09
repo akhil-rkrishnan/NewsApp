@@ -37,6 +37,7 @@ class LandingViewModelTest {
     // Run this test after changing the build variant to TechCrunch.
     @Test
     fun `list after first api call with source tech crunch returns 10 items`() = runTest {
+        viewModel.setSource("techcrunch")
         advanceUntilIdle()
         val list = viewModel.newsList.value
         assertThat(list).isNotEmpty()
@@ -46,6 +47,7 @@ class LandingViewModelTest {
     // Run this test after changing the build variant to Wall street journal.
     @Test
     fun `list after first api call with source tech crunch returns 25 items`() = runTest {
+        viewModel.setSource("the-wall-street-journal")
         advanceUntilIdle()
         val list = viewModel.newsList.value
         assertThat(list).isNotEmpty()
@@ -54,6 +56,7 @@ class LandingViewModelTest {
 
     @Test
     fun `all item in the list has valid authors`() = runTest {
+        viewModel.setSource("techcrunch")
         advanceUntilIdle()
         val newsList = viewModel.newsList.value
         newsList.forEach {
@@ -61,9 +64,10 @@ class LandingViewModelTest {
         }
     }
 
-    // This test will pass only after changing the flavor to sourceTest
     @Test
-    fun `news list is empty with empty source`() = runTest {
+    fun `empty source return empty list of articles`() = runTest {
+        viewModel.setSource("")
+        viewModel
         advanceUntilIdle()
         val newsList = viewModel.newsList.value
         assertThat(newsList).isEmpty()
