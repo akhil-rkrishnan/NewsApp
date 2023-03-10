@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 /**
- * Class for biometric authentication
+* Class for biometric authentication
  * @param context - Context
  **/
 class BiometricPrompt(private val context: Context) :

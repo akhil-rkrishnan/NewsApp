@@ -22,7 +22,7 @@ class LandingViewModel @Inject constructor(
     private val eventBus: EventBus
 ) : ViewModel() {
 
-    private val _newsState = MutableStateFlow<NewsState>(NewsState())
+    private val _newsState = MutableStateFlow(NewsState())
     val newsState = _newsState.asStateFlow()
 
     private var newsSource: String = BuildConfig.NEWS_SOURCE
@@ -35,7 +35,6 @@ class LandingViewModel @Inject constructor(
         updateLoading(true)
         viewModelScope.launch {
             newsRepository.getNewsList(newsSource).apply {
-
                 ifSuccess { response ->
                     _newsState.update {
                         NewsState(
@@ -53,11 +52,12 @@ class LandingViewModel @Inject constructor(
                 }
 
                 ifFailed { uiText, errorBody ->
+                    _newsState.update { NewsState(apiErrorBody = errorBody) }
                     eventBus.sendToast(uiText)
                     updateLoading(false)
-                    _newsState.update { NewsState(apiErrorBody = errorBody) }
                 }
             }
+
         }
     }
 
@@ -73,6 +73,7 @@ class LandingViewModel @Inject constructor(
     @VisibleForTesting
     fun setSource(source: String) {
         newsSource = source
+        loadNewsList()
     }
 
 }
