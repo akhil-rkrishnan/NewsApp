@@ -22,6 +22,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Landing screen activity
+ **/
 @AndroidEntryPoint
 class LandingActivity : ComponentActivity() {
 
@@ -52,7 +55,7 @@ class LandingActivity : ComponentActivity() {
                 }
             }
         }
-
+        // collector for global toasts
         lifecycleScope.launch {
             eventBus.toastFlow.collectLatest {
                 showToast(it)

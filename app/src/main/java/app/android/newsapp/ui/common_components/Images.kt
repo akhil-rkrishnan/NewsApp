@@ -15,6 +15,16 @@ import app.android.newsapp.R
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
+/**
+ * Method to load the Network image from the url
+ * @param modifier Modifier of the composable
+ * @param imageUrl url string
+ * @param showPlaceHolders shows the placeholder based on flag
+ * @param contentScale Scale type for the image
+ * @param alignment Alignment of the image
+ * @param contentDescription Description of the composable
+ * @param showTransition Set transition for the image based on flag
+ **/
 @Composable
 fun NetworkImage(
     modifier: Modifier = Modifier

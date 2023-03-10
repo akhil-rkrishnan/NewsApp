@@ -39,6 +39,12 @@ import app.android.newsapp.utils.ErrorBody
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
+/**
+ * Composable for News list screen
+ * @param viewModel [LandingViewModel]
+ * @param hasNetwork [Boolean] describes if the device has active connection or not.
+ * @param navController [NavHostController] controller for the nav graph
+ **/
 @Composable
 fun NewsListScreen(
     viewModel: LandingViewModel,
@@ -91,7 +97,7 @@ fun NewsListScreen(
                     VerticalSpacer(space = dimensionResource(id = R.dimen.dp10))
                     NewsErrorText(
                         text = stringResource(id = R.string.networkNotAvailable),
-                        color = orange, maxLines = 3
+                        color = orange, maxLines = 4
                     )
                 }
                 VerticalSpacer(space = dimensionResource(id = R.dimen.dp20))
@@ -135,6 +141,12 @@ fun NewsListScreen(
     }
 }
 
+/**
+ * Composable for News card item
+ * @param isLastItem [Boolean] if the item is last in the list
+ * @param article [NewsResponse.Article] Article data
+ * @param onNewsClick will be called when user clicks on the card
+ **/
 @Composable
 fun NewsCard(
     isLastItem: Boolean,
@@ -167,6 +179,10 @@ fun NewsCard(
     }
 }
 
+/**
+ * Composable for News Headline
+ * @param text headline of the news
+ **/
 @Composable
 fun NewsHeadLine(text: String) {
     Text(
@@ -182,6 +198,10 @@ fun NewsHeadLine(text: String) {
     )
 }
 
+/**
+ * Composable for the error screen
+ * @param errorBody [ErrorBody] Error thrown from network
+ **/
 @Composable
 fun ErrorScreen(errorBody: ErrorBody) {
     Box {

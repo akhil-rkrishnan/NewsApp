@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 /**
 * Class for biometric authentication
- * @param context - Context
+ * @param context Context
  **/
 class BiometricPrompt(private val context: Context) :
     BiometricPrompt.AuthenticationCallback() {

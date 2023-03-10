@@ -10,23 +10,15 @@ import app.android.newsapp.utils.UiText
  **/
 class FakeNewsRepository : NewsRepository {
 
-    init {
-        // by default error will be set to false. if we need to test the fail case manually set the boolean from the test class.
-        setError(false)
-    }
-
+    private var shouldReturnError = false
 
     companion object {
         const val TECH_CRUNCH = "techcrunch"
         const val WALL_STREET_JOURNAL = "the-wall-street-journal"
-        private var shouldReturnError = false
-        fun setShouldReturnError(value: Boolean) {
-            shouldReturnError = value
-        }
     }
 
     fun setError(value: Boolean) {
-        setShouldReturnError(value)
+        shouldReturnError = value
     }
 
     override suspend fun getNewsList(source: String): ApiResult<NewsResponse> {
@@ -41,6 +33,10 @@ class FakeNewsRepository : NewsRepository {
         return ApiResult.Success(getNews(source))
     }
 
+    /**
+     * Method to get fake news based on source
+     * @param source News source
+     **/
     private fun getNews(source: String): NewsResponse {
         return when (source) {
             TECH_CRUNCH -> {

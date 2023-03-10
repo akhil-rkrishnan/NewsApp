@@ -16,4 +16,5 @@
     <string name="networkNotAvailable">The network connection is currently unavailable,
         but you can still use the data that has already been loaded from the internet if it was previously obtained from the server.</string>
     <string name="networkNotAvailableEmpty">Please connect to internet to load the data!</string>
+    <string name="launch_latest_news">Launch latest news!</string>
 </resources>

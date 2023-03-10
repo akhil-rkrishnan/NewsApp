@@ -18,8 +18,12 @@ import kotlinx.coroutines.flow.collectLatest
 
 private const val TAG = "LauncherActivity"
 
+/**
+ * Launcher Activity class
+ **/
 class LauncherActivity : FragmentActivity() {
 
+    // variable to hold biometrics
     private val biometrics by lazy {
         BiometricPrompt(this)
     }
