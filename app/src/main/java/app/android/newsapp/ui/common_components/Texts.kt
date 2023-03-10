@@ -15,6 +15,10 @@ import app.android.newsapp.R
 import app.android.newsapp.ui.theme.black
 import app.android.newsapp.ui.utils.fontDimensionResource
 
+/**
+ * Composable for splash text
+ * @param text text for the splash screen
+ **/
 @Composable
 fun SplashText(text: String) {
     Text(
@@ -27,6 +31,10 @@ fun SplashText(text: String) {
     )
 }
 
+/**
+ * Composable for button text
+ * @param text text for the button
+ **/
 @Composable
 fun ButtonText(text: String) {
     Text(
@@ -39,6 +47,12 @@ fun ButtonText(text: String) {
     )
 }
 
+/**
+ * Composable for title text
+ * @param text title text
+ * @param textSize size of the text
+ * @param color color of the text
+ **/
 @Composable
 fun TitleText(
     text: String,
@@ -55,6 +69,12 @@ fun TitleText(
     )
 }
 
+/**
+ * Composable for News text
+ * @param text title text
+ * @param textSize size of the text
+ * @param color color of the text
+ **/
 @Composable
 fun NewsText(
     text: String,
@@ -71,6 +91,12 @@ fun NewsText(
     )
 }
 
+/**
+ * Composable for news light text
+ * @param text title text
+ * @param textSize size of the text
+ * @param color color of the text
+ **/
 @Composable
 fun NewsTextLight(
     text: String,
@@ -87,6 +113,13 @@ fun NewsTextLight(
     )
 }
 
+/**
+ * Composable for news error text
+ * @param text title text
+ * @param textSize size of the text
+ * @param color color of the text
+ * @param maxLines max lines for the text
+ **/
 @Composable
 fun NewsErrorText(
     text: String,

@@ -16,21 +16,29 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * View model class for Landing screen
+ **/
 @HiltViewModel
 class LandingViewModel @Inject constructor(
     private val newsRepository: NewsRepository,
     private val eventBus: EventBus
 ) : ViewModel() {
 
+    // Mutable state flow to hold the News state
     private val _newsState = MutableStateFlow(NewsState())
     val newsState = _newsState.asStateFlow()
 
+    // Variable to store the newsSource
     private var newsSource: String = BuildConfig.NEWS_SOURCE
 
     init {
         loadNewsList()
     }
 
+    /**
+     * Method to load news list from server
+     **/
     fun loadNewsList() {
         updateLoading(true)
         viewModelScope.launch {
@@ -61,10 +69,18 @@ class LandingViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Method to set the selected article from the list of news
+     * @param article News article
+     **/
     fun setSelectedArticle(article: NewsResponse.Article) {
         _newsState.update { it.copy(selectedArticle = article) }
     }
 
+    /**
+     * Method to upload the loading value
+     * @param value true or false
+     **/
     private fun updateLoading(value: Boolean) {
         _newsState.update { it.copy(isLoading = value) }
     }
@@ -73,7 +89,7 @@ class LandingViewModel @Inject constructor(
     @VisibleForTesting
     fun setSource(source: String) {
         newsSource = source
-        loadNewsList()
+        //loadNewsList()
     }
 
 }

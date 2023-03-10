@@ -2,7 +2,9 @@ package app.android.newsapp.ui.screens.landing
 
 import app.android.newsapp.data.models.response.NewsResponse
 import app.android.newsapp.utils.ErrorBody
-
+/**
+ * data class to hold the news state
+ **/
 data class NewsState(
     val totalItems: Int = 0,
     val status: String = "none",

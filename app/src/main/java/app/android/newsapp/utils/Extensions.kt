@@ -11,6 +11,11 @@ import app.android.newsapp.R
 private val osProperty: String = System.getProperty("os.name", "unknown") as String
 private val isMac = osProperty.startsWith("mac", ignoreCase = true)
 
+/**
+ * Method to persist the shortkey input
+ * @param input [TextFieldValue] text value of the text filed
+ * @return modifier [Modifier]
+ **/
 @OptIn(ExperimentalComposeUiApi::class)
 fun Modifier.persistShortKeyForInput(input: TextFieldValue): Modifier {
     return onPreviewKeyEvent { event ->
@@ -27,6 +32,10 @@ fun Modifier.persistShortKeyForInput(input: TextFieldValue): Modifier {
     }
 }
 
+/**
+ * Method to check whether control backspace is clicked
+ * @return boolean
+ **/
 @OptIn(ExperimentalComposeUiApi::class)
 private fun KeyEvent.isCtrlBackspace() =
     (key == Key.Backspace || key == Key.Enter || key == Key.Delete
@@ -34,16 +43,30 @@ private fun KeyEvent.isCtrlBackspace() =
             || key == Key.DirectionLeft || key == Key.DirectionRight) && ((isCtrlPressed || isAltPressed) || (isMac && isAltPressed))
 
 
+/**
+ * Method to check whether the cursor is at the end
+ * @return key [KeyEvent]
+ **/
 private fun TextFieldValue.isCursorAtTheEnd(): Boolean {
     val hasNoSelection = selection.collapsed
     val isCursorAtTheEnd = text.length == selection.end
     return hasNoSelection && isCursorAtTheEnd
 }
 
+/**
+ * Method to show toast for UiText
+ * @param message message to show
+ * @param longToast to specify the duration of toast
+ **/
 fun Context.showToast(message: String, longToast: Boolean = false) {
     Toast.makeText(this, message, if (longToast) Toast.LENGTH_LONG else Toast.LENGTH_SHORT).show()
 }
 
+/**
+ * Method to show toast for UiText
+ * @param message [UiText] UiText object for the message
+ * @param longToast to specify the duration of toast
+ **/
 fun Context.showToast(message: UiText?, longToast: Boolean = false) {
     val toastDuration = if (longToast) Toast.LENGTH_LONG else Toast.LENGTH_SHORT
     when (message) {

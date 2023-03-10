@@ -41,6 +41,10 @@ class FakeNewsRepository : NewsRepository {
         return ApiResult.Success(getNews(source))
     }
 
+    /**
+     * Method to get fake news based on source
+     * @param source News source
+     **/
     private fun getNews(source: String): NewsResponse {
         return when (source) {
             TECH_CRUNCH -> {

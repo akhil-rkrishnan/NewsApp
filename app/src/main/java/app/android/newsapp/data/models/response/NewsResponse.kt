@@ -4,6 +4,9 @@ package app.android.newsapp.data.models.response
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Response model for News Data
+ **/
 @Keep
 data class NewsResponse(
     @SerializedName("articles") val articles: List<Article>,

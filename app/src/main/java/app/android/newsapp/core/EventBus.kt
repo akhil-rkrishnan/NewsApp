@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
  */
 class EventBus {
 
+    // Variable to hold the toast channel flow
     private val _toastChannel = Channel<UiText?>()
     val toastFlow get() = _toastChannel.receiveAsFlow()
 
