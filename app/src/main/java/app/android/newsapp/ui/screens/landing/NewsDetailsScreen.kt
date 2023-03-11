@@ -34,6 +34,7 @@ fun NewsDetailsScreen(viewModel: LandingViewModel, navController: NavHostControl
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(all = dimensionResource(id = R.dimen.dp20))
             .verticalScroll(scrollState)
     ) {
         NetworkImage(imageUrl = article?.urlToImage)
