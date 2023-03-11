@@ -89,7 +89,7 @@ class LandingViewModel @Inject constructor(
     @VisibleForTesting
     fun setSource(source: String) {
         newsSource = source
-        //loadNewsList()
+        loadNewsList()
     }
 
 }

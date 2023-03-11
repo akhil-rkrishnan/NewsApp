@@ -73,6 +73,21 @@ android {
             dimension "newsAppEnv"
         }
 
+        sourceCategoryBusiness {
+            buildConfigField "String", "NEWS_SOURCE", '"business-insider"'
+            dimension "newsAppEnv"
+        }
+
+        sourceCBCNews {
+            buildConfigField "String", "NEWS_SOURCE", '"cbc-news"'
+            dimension "newsAppEnv"
+        }
+
+        sourceEntertainment {
+            buildConfigField "String", "NEWS_SOURCE", '"entertainment-weekly"'
+            dimension "newsAppEnv"
+        }
+
     }
 
     compileOptions {
@@ -145,7 +160,6 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
-
 
 
     //Security

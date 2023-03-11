@@ -2,7 +2,6 @@ package app.android.newsapp.di
 
 import android.content.Context
 import app.android.newsapp.BuildConfig
-import app.android.newsapp.core.EventBus
 import app.android.newsapp.data.network.NewsApi
 import app.android.newsapp.data.network.connection.NetworkConnection
 import app.android.newsapp.data.network.repository.NewsRepository
@@ -20,6 +19,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+
 /**
  * Module for Network objects
  **/
@@ -69,11 +69,5 @@ object NetworkModule {
     fun provideNetworkConnection(@ApplicationContext context: Context) = NetworkConnection(context)
 }
 
-@Module
-@InstallIn(SingletonComponent::class)
-object AppModule {
-    @Singleton
-    @Provides
-    fun provideEventBus() = EventBus()
-}
+
 
