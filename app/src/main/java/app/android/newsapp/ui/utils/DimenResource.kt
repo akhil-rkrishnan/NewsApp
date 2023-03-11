@@ -6,7 +6,10 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.sp
 
-
+/**
+ * Composable for font dimen resource
+ * @param id Resource id of the dimen
+ **/
 @Composable
 @ReadOnlyComposable
 fun fontDimensionResource(@DimenRes id: Int) = dimensionResource(id = id).value.sp

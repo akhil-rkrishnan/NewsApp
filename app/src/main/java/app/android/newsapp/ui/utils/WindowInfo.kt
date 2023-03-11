@@ -4,7 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-
+/**
+ * Method to hold the window information
+ **/
 @Composable
 fun rememberWindowInfo(): WindowInfo {
     val configuration = LocalConfiguration.current
@@ -24,6 +26,9 @@ fun rememberWindowInfo(): WindowInfo {
     )
 }
 
+/**
+ * Data class to store the window information
+ **/
 data class WindowInfo(
     val screenWidthInfo: WindowType,
     val screenHeightInfo: WindowType,

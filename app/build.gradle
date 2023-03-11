@@ -18,7 +18,7 @@ android {
 
         buildConfigField "String", 'BASE_URL', '"https://newsapi.org/v2/"'
         buildConfigField "String", 'API_KEY', '"3ff53327cab6426082d8cb63ee4f7b39"'
-        buildConfigField "String", "SOURCE", '"techcrunch"'
+
 
         testInstrumentationRunner "app.android.newsapp.HiltTestRunner"
         vectorDrawables {
@@ -31,13 +31,50 @@ android {
         all*.exclude module: 'bcprov-jdk15on'
         cleanedAnnotations
     }
-    buildTypes {
 
-        release {
+    buildTypes {
+        release { //production
             minifyEnabled true
+            shrinkResources true
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+        debug { //dev
+            debuggable true
+        }
+
+        applicationVariants.all {
+                // this method is use to rename your all apk weather
+                // it may be signed or unsigned(debug apk)
+            variant ->
+                variant.outputs.each {
+                        // on below line we are setting a
+                        // name to our apk as HealthierU.apk
+                    output ->
+                        def name = "NewsApp-v${defaultConfig.versionCode}-${variant.getName()}.apk"
+                        // on below line we are setting the
+                        // outputFile Name to our apk file.
+                        output.outputFileName = name
+                }
+        }
     }
+
+    flavorDimensions "newsAppEnv"
+    productFlavors {
+        //flavor for Tech cruch
+        sourceTechCrunch {
+            buildConfigField "String", "NEWS_SOURCE", '"techcrunch"'
+            dimension "newsAppEnv"
+        }
+        //flavor for Wall street journal
+        sourceWallStreetJournal {
+            buildConfigField "String", "NEWS_SOURCE", '"the-wall-street-journal"'
+            dimension "newsAppEnv"
+        }
+
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -157,6 +194,12 @@ dependencies {
     // Coil
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation "com.google.accompanist:accompanist-coil:0.10.0"
+    implementation "com.google.accompanist:accompanist-swiperefresh:0.21.0-beta"
+
+    // Test rules and transitive dependencies:
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.3.3")
+    // Needed for createAndroidComposeRule, but not createComposeRule:
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.3.3")
 
 
 }

@@ -9,17 +9,21 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
+import app.android.newsapp.data.biometrics.AuthState
+import app.android.newsapp.data.biometrics.BiometricPrompt
 import app.android.newsapp.ui.screens.landing.LandingActivity
 import app.android.newsapp.ui.theme.BBCNewsTheme
 import app.android.newsapp.ui.utils.startComponentActivity
-import app.android.newsapp.utils.AuthState
-import app.android.newsapp.utils.BiometricPrompt
 import kotlinx.coroutines.flow.collectLatest
 
 private const val TAG = "LauncherActivity"
 
+/**
+ * Launcher Activity class
+ **/
 class LauncherActivity : FragmentActivity() {
 
+    // variable to hold biometrics
     private val biometrics by lazy {
         BiometricPrompt(this)
     }
@@ -34,7 +38,6 @@ class LauncherActivity : FragmentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     LauncherScreen(onClick = {
-                        Log.e(TAG, "Biometrics enabled: ${biometrics.isBiometricEnabled}")
                         if (biometrics.isBiometricEnabled) {
                             biometrics.loadBiometrics()
                         } else {
