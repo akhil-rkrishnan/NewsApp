@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import app.android.newsapp.core.EventBus
 import app.android.newsapp.data.network.connection.NetworkConnection
 import app.android.newsapp.ui.screens.landing.navigation.LandingNavGraph
-import app.android.newsapp.ui.theme.BBCNewsTheme
+import app.android.newsapp.ui.theme.CriticalNewsTheme
 import app.android.newsapp.ui.theme.black
 import app.android.newsapp.ui.theme.lightGrey
 import app.android.newsapp.utils.showToast
@@ -46,7 +46,7 @@ class LandingActivity : ComponentActivity() {
                     darkIcons = false
                 )
             }
-            BBCNewsTheme {
+            CriticalNewsTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = lightGrey) {
                     LandingNavGraph(
                         viewModel = viewModel,

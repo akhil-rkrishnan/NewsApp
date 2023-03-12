@@ -11,7 +11,7 @@ import app.android.newsapp.data.network.repository.FakeNewsRepository.Companion.
 import app.android.newsapp.ui.screens.landing.LandingViewModel
 import app.android.newsapp.ui.screens.landing.NewsListScreen
 import app.android.newsapp.ui.screens.landing.navigation.LandingNavGraph
-import app.android.newsapp.ui.theme.BBCNewsTheme
+import app.android.newsapp.ui.theme.CriticalNewsTheme
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
@@ -42,7 +42,7 @@ class LandingScreenTest {
         viewModel.setSource(TECH_CRUNCH)
         advanceUntilIdle()
         composeTestRule.setContent {
-            BBCNewsTheme {
+            CriticalNewsTheme {
                 NewsListScreen(
                     viewModel = viewModel,
                     hasNetwork = true,
@@ -60,7 +60,7 @@ class LandingScreenTest {
         viewModel.setSource(WALL_STREET_JOURNAL)
         advanceUntilIdle()
         composeTestRule.setContent {
-            BBCNewsTheme {
+            CriticalNewsTheme {
                 NewsListScreen(
                     viewModel = viewModel,
                     hasNetwork = true,
@@ -79,7 +79,7 @@ class LandingScreenTest {
         advanceUntilIdle()
         val state = viewModel.newsState.value
         composeTestRule.setContent {
-            BBCNewsTheme {
+            CriticalNewsTheme {
                 NewsListScreen(
                     viewModel = viewModel,
                     hasNetwork = true,
@@ -98,7 +98,7 @@ class LandingScreenTest {
         advanceUntilIdle()
         val state = viewModel.newsState.value
         composeTestRule.setContent {
-            BBCNewsTheme {
+            CriticalNewsTheme {
                 NewsListScreen(
                     viewModel = viewModel,
                     hasNetwork = true,
@@ -115,13 +115,33 @@ class LandingScreenTest {
     fun `withSource-techcrunch-ClickOnItemNavigatesToDetailScreen`() = runTest {
         viewModel.setSource(TECH_CRUNCH)
         advanceUntilIdle()
-        val item = viewModel.newsState.value
         composeTestRule.setContent {
-            BBCNewsTheme {
+            CriticalNewsTheme {
                 LandingNavGraph(viewModel = viewModel, hasNetwork = true)
             }
         }
+        val item = viewModel.newsState.value
+        composeTestRule.onNodeWithText((item.articles.first().title)).assertIsDisplayed()
+            .performClick()
+        val selectedArticle = viewModel.newsState.value.selectedArticle
+        assertThat(selectedArticle).isNotNull()
 
+        composeTestRule.onNodeWithText(selectedArticle!!.title).assertIsDisplayed()
+        composeTestRule.onNodeWithText(selectedArticle.description).assertIsDisplayed()
+        composeTestRule.onNodeWithText(selectedArticle.content).assertIsDisplayed()
+
+    }
+
+    @Test
+    fun `withSource-thewallstreetjournal-ClickOnItemNavigatesToDetailScreen`() = runTest {
+        viewModel.setSource(WALL_STREET_JOURNAL)
+        advanceUntilIdle()
+        composeTestRule.setContent {
+            CriticalNewsTheme {
+                LandingNavGraph(viewModel = viewModel, hasNetwork = true)
+            }
+        }
+        val item = viewModel.newsState.value
         composeTestRule.onNodeWithText((item.articles.first().title)).assertIsDisplayed()
             .performClick()
         val selectedArticle = viewModel.newsState.value.selectedArticle

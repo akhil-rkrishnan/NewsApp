@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import app.android.newsapp.data.biometrics.AuthState
 import app.android.newsapp.data.biometrics.BiometricPrompt
 import app.android.newsapp.ui.screens.landing.LandingActivity
-import app.android.newsapp.ui.theme.BBCNewsTheme
+import app.android.newsapp.ui.theme.CriticalNewsTheme
 import app.android.newsapp.ui.utils.startComponentActivity
 import kotlinx.coroutines.flow.collectLatest
 
@@ -31,7 +31,7 @@ class LauncherActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BBCNewsTheme {
+            CriticalNewsTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
