@@ -44,6 +44,7 @@ fun NetworkImage(
         model = if (showTransition) {
             ImageRequest.Builder(context)
                 .data(imageUrl)
+                .diskCacheKey(imageUrl) //caching the image
                 .crossfade(true)
                 .build()
         } else imageUrl,
