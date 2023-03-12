@@ -10,6 +10,7 @@ import app.android.newsapp.R
 import app.android.newsapp.ui.common_components.SplashButton
 import app.android.newsapp.ui.common_components.SplashText
 import app.android.newsapp.ui.common_components.VerticalSpacer
+
 /**
  * Composable for launcher screen
  * @param onClick invoked when user click on the button

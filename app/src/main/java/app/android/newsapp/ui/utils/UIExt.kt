@@ -3,6 +3,7 @@ package app.android.newsapp.ui.utils
 import android.content.Context
 import android.content.Intent
 import androidx.activity.ComponentActivity
+
 /**
  * Method to start component activity in a context scope
  * @param target [Class] the target to be launched.

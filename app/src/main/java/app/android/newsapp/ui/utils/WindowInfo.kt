@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+
 /**
  * Method to hold the window information
  **/
@@ -36,8 +37,8 @@ data class WindowInfo(
     val screenHeight: Dp
 ) {
     sealed class WindowType {
-        object Compact: WindowType()
-        object Medium: WindowType()
-        object Expanded: WindowType()
+        object Compact : WindowType()
+        object Medium : WindowType()
+        object Expanded : WindowType()
     }
 }

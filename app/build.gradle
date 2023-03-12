@@ -52,7 +52,7 @@ android {
                         // on below line we are setting a
                         // name to our apk as HealthierU.apk
                     output ->
-                        def name = "NewsApp-v${defaultConfig.versionCode}-${variant.getName()}.apk"
+                        def name = "${variant.getName()}-v${defaultConfig.versionCode}.apk"
                         // on below line we are setting the
                         // outputFile Name to our apk file.
                         output.outputFileName = name

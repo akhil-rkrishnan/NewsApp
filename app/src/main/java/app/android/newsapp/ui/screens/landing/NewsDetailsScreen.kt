@@ -19,6 +19,7 @@ import app.android.newsapp.ui.theme.grey
 import app.android.newsapp.ui.theme.lightBlack
 import app.android.newsapp.utils.toDescriptionOrDefault
 import app.android.newsapp.utils.toTitleOrDefault
+
 /**
  * Composable for News detail screen
  * @param viewModel [LandingViewModel]
