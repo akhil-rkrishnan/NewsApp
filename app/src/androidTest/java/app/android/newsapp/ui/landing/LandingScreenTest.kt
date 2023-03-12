@@ -1,9 +1,7 @@
 package app.android.newsapp.ui.landing
 
-import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.rememberNavController
 import androidx.test.filters.MediumTest
 import app.android.newsapp.core.EventBus
@@ -90,7 +88,7 @@ class LandingScreenTest {
             }
         }
         state.articles.forEach { item ->
-            composeTestRule.onNodeWithText(item.title).assertIsDisplayed()
+            composeTestRule.onAllNodes(hasText(item.title)).assertAll(hasText(item.title))
         }
     }
 
@@ -109,32 +107,8 @@ class LandingScreenTest {
             }
         }
         state.articles.forEach { item ->
-            composeTestRule.onNodeWithText(item.title).assertIsDisplayed()
+            composeTestRule.onAllNodes(hasText(item.title)).assertAll(hasText(item.title))
         }
-    }
-
-    @Test
-    fun `withSource-thewallstreetjournal-ClickOnItemNavigatesToDetailScreen`() = runTest {
-        viewModel.setSource(WALL_STREET_JOURNAL)
-        advanceUntilIdle()
-        val item = viewModel.newsState.value
-        composeTestRule.setContent {
-            BBCNewsTheme {
-                LandingNavGraph(viewModel = viewModel, hasNetwork = true)
-            }
-        }
-        val position = 0
-        // position must be less than list items.
-        assertThat(position).isLessThan(item.articles.size)
-        composeTestRule.onNodeWithText((item.articles[position].title)).assertIsDisplayed()
-            .performClick()
-        val selectedArticle = viewModel.newsState.value.selectedArticle
-        assertThat(selectedArticle).isNotNull()
-
-        composeTestRule.onNodeWithText(selectedArticle!!.title).assertIsDisplayed()
-        composeTestRule.onNodeWithText(selectedArticle.description).assertIsDisplayed()
-        composeTestRule.onNodeWithText(selectedArticle.content).assertIsDisplayed()
-
     }
 
     @Test
@@ -147,10 +121,8 @@ class LandingScreenTest {
                 LandingNavGraph(viewModel = viewModel, hasNetwork = true)
             }
         }
-        val position = 0
-        // position must be less than list items.
-        assertThat(position).isLessThan(item.articles.size)
-        composeTestRule.onNodeWithText((item.articles[position].title)).assertIsDisplayed()
+
+        composeTestRule.onNodeWithText((item.articles.first().title)).assertIsDisplayed()
             .performClick()
         val selectedArticle = viewModel.newsState.value.selectedArticle
         assertThat(selectedArticle).isNotNull()

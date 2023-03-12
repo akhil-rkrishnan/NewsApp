@@ -8,31 +8,31 @@ import androidx.navigation.compose.rememberNavController
 import app.android.newsapp.ui.screens.landing.LandingViewModel
 import app.android.newsapp.ui.screens.landing.NewsDetailsScreen
 import app.android.newsapp.ui.screens.landing.NewsListScreen
-import app.android.newsapp.ui.screens.landing.navigation.LandingRoutes.NewsDetails
-import app.android.newsapp.ui.screens.landing.navigation.LandingRoutes.NewsList
+import app.android.newsapp.ui.screens.landing.navigation.LandingRoutes.NewsDetailsRoute
+import app.android.newsapp.ui.screens.landing.navigation.LandingRoutes.NewsListRoute
 
 @Composable
 fun LandingNavGraph(
     viewModel: LandingViewModel,
     hasNetwork: Boolean,
-    startDestination: String = NewsList,
+    startDestination: String = NewsListRoute,
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(navController = navController, startDestination = startDestination) {
-        composable(route = NewsList) {
+        composable(route = NewsListRoute) {
             NewsListScreen(
                 viewModel = viewModel,
                 hasNetwork = hasNetwork,
                 navController = navController
             )
         }
-        composable(route = NewsDetails) {
+        composable(route = NewsDetailsRoute) {
             NewsDetailsScreen(viewModel = viewModel, navController = navController)
         }
     }
 }
 
 object LandingRoutes {
-    const val NewsList = "newsListRoute"
-    const val NewsDetails = "newsDetailsRoute"
+    const val NewsListRoute = "newsListRoute"
+    const val NewsDetailsRoute = "newsDetailsRoute"
 }

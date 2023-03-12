@@ -108,7 +108,7 @@ fun NewsListScreen(
                             article = item
                         ) {
                             viewModel.setSelectedArticle(item)
-                            navController.navigate(LandingRoutes.NewsDetails)
+                            navController.navigate(LandingRoutes.NewsDetailsRoute)
                         }
                     }
                 }
